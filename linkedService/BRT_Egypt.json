@@ -1,0 +1,12 @@
+{
+	"name": "BRT_Egypt",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "PowerBIWorkspace",
+		"typeProperties": {
+			"workspaceID": " synapse-transportation-project-WorkspaceDefaultStorage",
+			"tenantID": "0bc92751-071a-4e2c-a48b-633206fef374"
+		}
+	}
+}

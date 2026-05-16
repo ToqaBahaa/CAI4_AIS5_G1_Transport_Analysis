@@ -1,0 +1,25 @@
+{
+	"name": "trig_daily_transport_ingest",
+	"properties": {
+		"description": "This trigger to run the pipline used for data validation. It will run daily at midnight",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_transport_ingest_batch",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2026-05-16T23:59:00",
+				"timeZone": "Egypt Standard Time"
+			}
+		}
+	}
+}

@@ -1,0 +1,46 @@
+{
+	"name": "ds_raw_routes",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "synapse-transportation-project-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "routes.csv",
+				"folderPath": "raw/routes",
+				"fileSystem": "transportationdata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "route_id",
+				"type": "String"
+			},
+			{
+				"name": "route_name",
+				"type": "String"
+			},
+			{
+				"name": "total_stations",
+				"type": "String"
+			},
+			{
+				"name": "avg_speed_kmh",
+				"type": "String"
+			},
+			{
+				"name": "peak_frequency_min",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

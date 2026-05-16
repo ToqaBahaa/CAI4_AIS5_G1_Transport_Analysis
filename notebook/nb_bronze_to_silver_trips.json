@@ -1,0 +1,70 @@
+{
+	"name": "nb_bronze_to_silver_trips",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark2trnsport",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "6b2fe169-f128-4626-ac85-9e37f691a598"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/b1176978-bf06-47b3-b11b-31f44dcf8821/resourceGroups/transportation_project/providers/Microsoft.Synapse/workspaces/synapse-transportation-project/bigDataPools/spark2trnsport",
+				"name": "spark2trnsport",
+				"type": "Spark",
+				"endpoint": "https://synapse-transportation-project.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark2trnsport",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.5",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"storage_account = 'adlstransproject'\n",
+					"container       = 'transportationdata'\n",
+					"\n",
+					"df_raw = spark.read.option('header', True) \\\n",
+					"              .option('inferSchema', True) \\\n",
+					"              .csv(f'abfss://{container}@{storage_account}.dfs.core.windows.net/raw/trips/')\n",
+					"\n",
+					"print(f'Row count: {df_raw.count():,}')   # Expected: ~500,000\n",
+					"df_raw.printSchema()\n",
+					""
+				],
+				"execution_count": 1
+			}
+		]
+	}
+}

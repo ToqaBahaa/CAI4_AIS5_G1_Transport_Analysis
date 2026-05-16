@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 1",
+	"properties": {
+		"content": {
+			"query": "SELECT\n    payment_method,\n    SUM(trip_id)   AS total_revenue\nFROM\n    OPENROWSET(\n        BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated/trips/**',\n        FORMAT = 'PARQUET'\n    ) AS sales\nGROUP BY payment_method\nORDER BY total_revenue DESC;\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

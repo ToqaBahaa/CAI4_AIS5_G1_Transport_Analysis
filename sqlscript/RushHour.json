@@ -1,0 +1,17 @@
+{
+	"name": "RushHour",
+	"properties": {
+		"content": {
+			"query": "-- SELECT \n--     DATEPART(HOUR, CAST(trip_datetime AS datetime2)) AS pickup_hour,\n--     COUNT(*) AS total_trips\n-- FROM OPENROWSET(\n--     BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/trips/**',\n--     FORMAT = 'PARQUET'\n-- ) AS trips\n-- GROUP BY DATEPART(HOUR, CAST(trip_datetime AS datetime2))\n-- ORDER BY total_trips DESC;\nCREATE VIEW vw_peak_hours AS\nWITH trips AS (\n    SELECT *\n    FROM OPENROWSET(\n        BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/trips/**',\n        FORMAT = 'PARQUET'\n    ) AS t\n)\nSELECT\n    hour_of_day,\n    SUM(passenger_count) AS total_passengers,\n    COUNT(*) AS total_trips\nFROM trips\nGROUP BY hour_of_day;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "transportdb",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

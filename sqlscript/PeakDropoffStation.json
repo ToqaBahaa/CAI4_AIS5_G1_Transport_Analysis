@@ -1,0 +1,17 @@
+{
+	"name": "PeakDropoffStation",
+	"properties": {
+		"content": {
+			"query": "SELECT dropoff_station,\n       COUNT(*) AS dropoffs\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/trips/**',\n    FORMAT = 'PARQUET'\n) AS trips\nGROUP BY dropoff_station\nORDER BY dropoffs DESC;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "transportdb",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

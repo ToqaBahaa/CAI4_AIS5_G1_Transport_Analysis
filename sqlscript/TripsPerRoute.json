@@ -1,0 +1,17 @@
+{
+	"name": "TripsPerRoute",
+	"properties": {
+		"content": {
+			"query": "SELECT route_id,\n       COUNT(*) AS total_trips\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/trips/**',\n    FORMAT = 'PARQUET'\n) AS trips\nGROUP BY route_id\nORDER BY total_trips DESC;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "transportdb",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

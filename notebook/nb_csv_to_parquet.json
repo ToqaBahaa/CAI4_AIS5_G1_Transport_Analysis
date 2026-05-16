@@ -1,0 +1,112 @@
+{
+	"name": "nb_csv_to_parquet",
+	"properties": {
+		"description": "Convert all csv in curated folder to parquet",
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark2trnsport",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "97c910a9-af66-4049-8ee4-677da695392e"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/b1176978-bf06-47b3-b11b-31f44dcf8821/resourceGroups/transportation_project/providers/Microsoft.Synapse/workspaces/synapse-transportation-project/bigDataPools/spark2trnsport",
+				"name": "spark2trnsport",
+				"type": "Spark",
+				"endpoint": "https://synapse-transportation-project.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark2trnsport",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.5",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"df_trips = spark.read.option(\"header\", True) \\\n",
+					"    .option(\"inferSchema\", True) \\\n",
+					"    .csv(\"abfss://transportationdata@adlstransproject.dfs.core.windows.net/curated/trips/\")\n",
+					"\n",
+					"df_trips_clean = df_trips.dropDuplicates()\n",
+					"\n",
+					"df_trips_clean.write.mode(\"overwrite\").parquet(\n",
+					"    \"abfss://transportationdata@adlstransproject.dfs.core.windows.net/curated_parquet/trips/\"\n",
+					")\n",
+					"\n",
+					"print(\"Trips parquet created\")"
+				],
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"df_routes = spark.read.option(\"header\", True) \\\n",
+					"    .option(\"inferSchema\", True) \\\n",
+					"    .csv(\"abfss://transportationdata@adlstransproject.dfs.core.windows.net/curated/routes/\")\n",
+					"\n",
+					"df_routes_clean = df_routes.dropDuplicates()\n",
+					"\n",
+					"df_routes_clean.write.mode(\"overwrite\").parquet(\n",
+					"    \"abfss://transportationdata@adlstransproject.dfs.core.windows.net/curated_parquet/routes/\"\n",
+					")\n",
+					"\n",
+					"print(\"Routes parquet created\")"
+				],
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"df_stations = spark.read.option(\"header\", True) \\\n",
+					"    .option(\"inferSchema\", True) \\\n",
+					"    .csv(\"abfss://transportationdata@adlstransproject.dfs.core.windows.net/curated/stations/\")\n",
+					"\n",
+					"df_stations_clean = df_stations.dropDuplicates()\n",
+					"\n",
+					"df_stations_clean.write.mode(\"overwrite\").parquet(\n",
+					"    \"abfss://transportationdata@adlstransproject.dfs.core.windows.net/curated_parquet/stations/\"\n",
+					")\n",
+					"\n",
+					"print(\"Stations parquet created\")"
+				],
+				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					""
+				]
+			}
+		]
+	}
+}
