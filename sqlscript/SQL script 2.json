@@ -2,7 +2,7 @@
 	"name": "SQL script 2",
 	"properties": {
 		"content": {
-			"query": "ALTER ROLE db_owner ADD MEMBER [ym30307030104741@depi.eui.edu.eg];",
+			"query": "CREATE USER [hm29802050106169@depi.eui.edu.eg] FROM EXTERNAL PROVIDER;\nALTER ROLE db_owner ADD MEMBER [hm29802050106169@depi.eui.edu.eg];",
 			"metadata": {
 				"language": "sql"
 			},
