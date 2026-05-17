@@ -2,7 +2,7 @@
 	"name": "FareperRoute",
 	"properties": {
 		"content": {
-			"query": "SELECT route_id,\n       AVG(fare_egp) AS avg_fare\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/trips/**',\n    FORMAT = 'PARQUET'\n) AS trips\nGROUP BY route_id\nORDER BY avg_fare DESC;",
+			"query": "CREATE VIEW vw_fare_per_route AS\n\nSELECT\n    route_id,\n    AVG(fare_egp) AS avg_fare\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/trips/**',\n    FORMAT = 'PARQUET'\n) AS trips\nGROUP BY route_id;",
 			"metadata": {
 				"language": "sql"
 			},

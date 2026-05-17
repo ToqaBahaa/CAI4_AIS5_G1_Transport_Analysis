@@ -2,7 +2,7 @@
 	"name": "PassengerVolume",
 	"properties": {
 		"content": {
-			"query": "SELECT pickup_station,\n       COUNT(*) AS passenger_volume\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/trips/**',\n    FORMAT = 'PARQUET'\n) AS trips\nGROUP BY pickup_station\nORDER BY passenger_volume DESC;",
+			"query": "CREATE VIEW vw_passenger_volume AS\n\nSELECT\n    pickup_station,\n    COUNT(*) AS passenger_volume\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/trips/**',\n    FORMAT = 'PARQUET'\n) AS trips\nGROUP BY pickup_station;",
 			"metadata": {
 				"language": "sql"
 			},
