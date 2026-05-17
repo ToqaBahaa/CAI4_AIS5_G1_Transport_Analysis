@@ -991,6 +991,26 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 3')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "CREATE VIEW vw_fact_trips AS\nSELECT *\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/trips/**',\n    FORMAT = 'PARQUET'\n) AS trips;",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "master",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/TripAnalysis')]",
 			"type": "Microsoft.Synapse/workspaces/sqlscripts",
 			"apiVersion": "2019-06-01-preview",
@@ -1017,6 +1037,66 @@
 			"properties": {
 				"content": {
 					"query": "CREATE VIEW vw_trips_per_route AS\n\nSELECT\n    route_id,\n    COUNT(*) AS total_trips\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/trips/**',\n    FORMAT = 'PARQUET'\n) AS trips\nGROUP BY route_id;",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "transportdb",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/vw_dim_routes')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "CREATE VIEW vw_dim_routes AS\nSELECT *\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/routes/**',\n    FORMAT = 'PARQUET'\n) AS routes;",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "transportdb",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/vw_dim_stations')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "CREATE VIEW vw_dim_stations AS\nSELECT *\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/stations/**',\n    FORMAT = 'PARQUET'\n) AS stations;",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "transportdb",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/vw_fact_trips')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "CREATE VIEW vw_fact_trips AS\nSELECT *\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/trips/**',\n    FORMAT = 'PARQUET'\n) AS trips;",
 					"metadata": {
 						"language": "sql"
 					},
