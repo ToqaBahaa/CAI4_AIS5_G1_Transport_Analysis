@@ -1,0 +1,17 @@
+{
+	"name": "vw_fact_trips",
+	"properties": {
+		"content": {
+			"query": "CREATE VIEW vw_fact_trips AS\nSELECT *\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/trips/**',\n    FORMAT = 'PARQUET'\n) AS trips;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "transportdb",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "vw_dim_routes",
+	"properties": {
+		"content": {
+			"query": "CREATE VIEW vw_dim_routes AS\nSELECT *\nFROM OPENROWSET(\n    BULK 'https://adlstransproject.dfs.core.windows.net/transportationdata/curated_parquet/routes/**',\n    FORMAT = 'PARQUET'\n) AS routes;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "transportdb",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
